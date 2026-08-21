@@ -1,10 +1,7 @@
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const root = path.join(__dirname, 'dist');
+const root = path.join(process.cwd(), 'dist');
 const port = process.env.PORT || 3000;
 const types = {
   '.html': 'text/html; charset=utf-8',
