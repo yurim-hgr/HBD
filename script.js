@@ -32,7 +32,6 @@ const photoStrip = document.getElementById('photoStrip');
 const birthdayPhotos = [
   'images/KakaoTalk_Photo_2026-08-21-20-12-11.jpeg',
   'images/KakaoTalk_Photo_2026-08-21-20-12-16.jpeg',
-  'images/KakaoTalk_Photo_2026-08-21-20-12-23.jpeg',
   'images/KakaoTalk_Photo_2026-08-21-20-12-27.jpeg',
   'images/KakaoTalk_Photo_2026-08-21-20-12-30.jpeg',
   'images/KakaoTalk_Photo_2026-08-21-20-12-37.jpeg',
