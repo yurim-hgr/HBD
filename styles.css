@@ -1048,3 +1048,24 @@ h2::after {
   .photo-strip { grid-auto-columns: 76px; }
   .photo-thumb { width: 76px; height: 76px; }
 }
+
+/* simple photo carousel mode */
+.photo-preview {
+  cursor: default;
+  touch-action: auto;
+}
+.photo-preview.has-image {
+  background-position: center;
+  cursor: default;
+}
+.photo-preview.has-image::after {
+  content: '🎠 아래 사진을 누르면 바뀌어';
+}
+.photo-caption {
+  margin: 10px 0 0;
+  color: #a84f80;
+  text-align: center;
+  font-family: 'Jua', sans-serif;
+  font-size: 14px;
+}
+.photo-tools { display: none !important; }

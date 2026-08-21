@@ -27,8 +27,6 @@ tabs.forEach((tab) => {
 });
 
 const photoPreview = document.getElementById('photoPreview');
-const photoTools = document.getElementById('photoTools');
-const resetPhotoPosition = document.getElementById('resetPhotoPosition');
 const photoCaption = document.getElementById('photoCaption');
 const photoStrip = document.getElementById('photoStrip');
 const birthdayPhotos = [
@@ -41,60 +39,24 @@ const birthdayPhotos = [
   'images/KakaoTalk_Photo_2026-08-21-20-12-40.jpeg',
   'images/KakaoTalk_Photo_2026-08-21-20-12-46.jpeg',
 ];
-const photoStateKey = 'wooniBirthdayPhotoPositions';
 const selectedPhotoKey = 'wooniBirthdaySelectedPhoto';
-let photoPosition = { x: 50, y: 50 };
-let dragStart = null;
-let didDragPhoto = false;
 let selectedPhoto = localStorage.getItem(selectedPhotoKey) || birthdayPhotos[0];
 
-function clamp(value, min = 0, max = 100) {
-  return Math.min(max, Math.max(min, value));
-}
-
-function getPhotoPositions() {
-  return JSON.parse(localStorage.getItem(photoStateKey) || '{}');
-}
-
-function savePhotoPositions(positions) {
-  localStorage.setItem(photoStateKey, JSON.stringify(positions));
-}
-
-function applyPhoto(image, position = photoPosition) {
-  photoPosition = {
-    x: clamp(position.x ?? 50),
-    y: clamp(position.y ?? 50),
-  };
+function applyPhoto(image) {
   selectedPhoto = image;
   localStorage.setItem(selectedPhotoKey, image);
   photoPreview.classList.add('has-image');
   photoPreview.style.backgroundImage = `url(${image})`;
-  photoPreview.style.setProperty('--photo-x', `${photoPosition.x}%`);
-  photoPreview.style.setProperty('--photo-y', `${photoPosition.y}%`);
-  photoTools.classList.add('active');
   const photoIndex = birthdayPhotos.indexOf(image) + 1;
-  photoCaption.textContent = `${photoIndex}/${birthdayPhotos.length} · 사진을 손가락으로 밀어서 위치 조정 ✨`;
+  photoCaption.textContent = `${photoIndex}/${birthdayPhotos.length} · 아래 사진을 눌러서 추억 넘겨보기 🎠`;
   document.querySelectorAll('.photo-thumb').forEach((thumb) => {
     thumb.classList.toggle('active', thumb.dataset.photo === image);
   });
 }
 
 function selectPhoto(image) {
-  const positions = getPhotoPositions();
-  applyPhoto(image, positions[image] || { x: 50, y: 50 });
+  applyPhoto(image);
   burstConfetti(18);
-}
-
-function savePhotoPosition() {
-  const positions = getPhotoPositions();
-  positions[selectedPhoto] = photoPosition;
-  savePhotoPositions(positions);
-}
-
-function resetPosition() {
-  photoPosition = { x: 50, y: 50 };
-  applyPhoto(selectedPhoto, photoPosition);
-  savePhotoPosition();
 }
 
 birthdayPhotos.forEach((photo, index) => {
@@ -110,54 +72,6 @@ birthdayPhotos.forEach((photo, index) => {
 
 if (!birthdayPhotos.includes(selectedPhoto)) selectedPhoto = birthdayPhotos[0];
 selectPhoto(selectedPhoto);
-
-resetPhotoPosition.addEventListener('click', resetPosition);
-
-photoPreview.addEventListener('click', (event) => {
-  if (photoPreview.classList.contains('has-image') && didDragPhoto) {
-    event.preventDefault();
-    didDragPhoto = false;
-  }
-});
-
-photoPreview.addEventListener('pointerdown', (event) => {
-  if (!photoPreview.classList.contains('has-image')) return;
-  event.preventDefault();
-  dragStart = {
-    pointerId: event.pointerId,
-    x: event.clientX,
-    y: event.clientY,
-    position: { ...photoPosition },
-  };
-  didDragPhoto = false;
-  photoPreview.classList.add('dragging');
-  photoPreview.setPointerCapture(event.pointerId);
-});
-
-photoPreview.addEventListener('pointermove', (event) => {
-  if (!dragStart || dragStart.pointerId !== event.pointerId) return;
-  const rect = photoPreview.getBoundingClientRect();
-  const dx = ((event.clientX - dragStart.x) / rect.width) * 100;
-  const dy = ((event.clientY - dragStart.y) / rect.height) * 100;
-  if (Math.abs(dx) > 1 || Math.abs(dy) > 1) didDragPhoto = true;
-  photoPosition = {
-    x: clamp(dragStart.position.x + dx),
-    y: clamp(dragStart.position.y + dy),
-  };
-  photoPreview.style.setProperty('--photo-x', `${photoPosition.x}%`);
-  photoPreview.style.setProperty('--photo-y', `${photoPosition.y}%`);
-});
-
-function endPhotoDrag(event) {
-  if (!dragStart || dragStart.pointerId !== event.pointerId) return;
-  photoPreview.classList.remove('dragging');
-  photoPreview.releasePointerCapture(event.pointerId);
-  dragStart = null;
-  savePhotoPosition();
-}
-
-photoPreview.addEventListener('pointerup', endPhotoDrag);
-photoPreview.addEventListener('pointercancel', endPhotoDrag);
 
 const cake = document.querySelector('.cake');
 const wishBtn = document.getElementById('wishBtn');
