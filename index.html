@@ -1,126 +1,135 @@
 <!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>우니 생일추카해</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="bg-glow glow-1"></div>
-  <div class="bg-glow glow-2"></div>
-  <div class="confetti" aria-hidden="true"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>우니 생일추카해</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Jua&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="park-balloon balloon-a">🎈</div>
+    <div class="park-balloon balloon-b">🎠</div>
+    <div class="park-balloon balloon-c">☁️</div>
+    <div class="confetti" aria-hidden="true"></div>
 
-  <main class="phone-card">
-    <div class="sticker s-a">QUEEN</div>
-    <div class="sticker s-b">B-DAY</div>
-    <header class="hero">
-      <div class="crown">✦</div>
-      <p class="eyebrow">kitsch pink birthday club</p>
-      <h1>HBD<br><span>우니 생일추카해</span></h1>
-      <p class="subtitle">오늘 컨셉은 핑크, 글로시, 키치, 그리고 우니가 주인공 💗</p>
-    </header>
+    <main class="phone-card">
+      <div class="sticker s-a">QUEEN</div>
+      <div class="sticker s-b">B-DAY</div>
+      <header class="hero">
+        <div class="crown">🎠</div>
+        <p class="eyebrow">Wooni's dreamy amusement park</p>
+        <h1>HBD<br /><span>우니 생일추카해</span></h1>
+        <p class="subtitle">
+          오늘 하루는 회전목마 타고 반짝이는 생일랜드 입장 💗
+        </p>
+      </header>
 
-    <nav class="tabs" aria-label="birthday tabs">
-      <button class="tab active" data-tab="memory">추억</button>
-      <button class="tab" data-tab="cake">케이크</button>
-      <button class="tab" data-tab="letter">편지</button>
-      <button class="tab" data-tab="gift">선물</button>
-    </nav>
+      <nav class="tabs" aria-label="birthday tabs">
+        <button class="tab active" data-tab="memory">추억</button>
+        <button class="tab" data-tab="cake">케이크</button>
+        <button class="tab" data-tab="letter">편지</button>
+        <button class="tab" data-tab="gift">선물</button>
+      </nav>
 
-    <section id="memory" class="panel active">
-      <div class="section-title">
-        <span>01</span>
-        <h2>우리 추억 ZIP</h2>
-      </div>
-      <p class="desc">사진을 찍거나 올리면, 공주 앨범 카드에 쏙 들어가요 ✨</p>
-
-      <label class="camera-box">
-        <input id="photoInput" type="file" accept="image/*" capture="environment" />
-        <div id="photoPreview" class="photo-preview">
-          <span class="camera-icon">📸</span>
-          <strong>사진 찍기 / 올리기</strong>
-          <small>추억 한 장을 여기에 담아줘</small>
+      <section id="memory" class="panel active">
+        <div class="section-title">
+          <span>01</span>
+          <h2>우리 추억 ZIP</h2>
         </div>
-      </label>
+        <p class="desc">
+          우리가 올려둔 사진들 전부 담았어. 사진을 누르고 위치도 마음대로 맞춰봐
+          ✨
+        </p>
 
-      <div class="album-grid">
-        <article class="polaroid tilt-left"><div class="fake-photo p1">BESTIE</div><p>웃겨서 배아팠던 날</p></article>
-        <article class="polaroid tilt-right"><div class="fake-photo p2">PINK</div><p>우리만의 핑크 모먼트</p></article>
-        <article class="polaroid"><div class="fake-photo p3">LOVE</div><p>앞으로도 추억 백만개</p></article>
-      </div>
-    </section>
-
-    <section id="cake" class="panel">
-      <div class="section-title">
-        <span>02</span>
-        <h2>Cake Ceremony</h2>
-      </div>
-      <p class="desc">초를 눌러서 생일 마법을 터뜨려봐! 🎂</p>
-
-      <div class="cake-stage">
-        <button id="wishBtn" class="wish-btn">소원 빌고 초 끄기</button>
-        <div class="cake">
-          <div class="candles">
-            <button class="candle"><i></i></button>
-            <button class="candle"><i></i></button>
-            <button class="candle"><i></i></button>
+        <div class="camera-box">
+          <div id="photoPreview" class="photo-preview">
+            <span class="camera-icon">💗</span>
+            <strong>우니 포토 앨범</strong>
+            <small>잠깐만 기다려줘</small>
           </div>
-          <div class="cream cream-top"></div>
-          <div class="layer layer-1"></div>
-          <div class="cream"></div>
-          <div class="layer layer-2"></div>
-          <div class="plate"></div>
         </div>
-        <p id="cakeMsg" class="cake-msg">우니 오늘의 주인공 등장 👑</p>
-      </div>
-    </section>
+        <div id="photoTools" class="photo-tools" aria-live="polite">
+          <span id="photoCaption">사진을 손가락으로 밀어서 위치 조정 ✨</span>
+          <button id="resetPhotoPosition" type="button">가운데로</button>
+        </div>
+        <div id="photoStrip" class="photo-strip" aria-label="사진 목록"></div>
+      </section>
 
-    <section id="letter" class="panel">
-      <div class="section-title">
-        <span>03</span>
-        <h2>Letter For U</h2>
-      </div>
-      <article class="letter-card">
-        <div class="seal">💌</div>
-        <p>나의 제일 반짝이는 친구에게,</p>
-        <p>
-          생일 너무너무 축하해! 너는 그냥 친구가 아니라 내 일상에 반짝이를 뿌려주는 사람이라서,
-          오늘만큼은 진짜 공주님처럼 예쁨과 사랑만 왕창 받았으면 좋겠어.
-        </p>
-        <p>
-          앞으로도 맛있는 거 먹고, 예쁜 곳 가고, 말도 안 되게 웃긴 추억 계속 만들자.
-          네가 고르는 모든 길에 행운이 핑크 리본처럼 따라다니길! 🎀
-        </p>
-        <strong>사랑 듬뿍 담아서, 네 친구가 💗</strong>
-      </article>
-    </section>
+      <section id="cake" class="panel">
+        <div class="section-title">
+          <span>02</span>
+          <h2>Cake Ceremony</h2>
+        </div>
+        <p class="desc">초를 눌러서 생일 마법을 터뜨려봐! 🎂</p>
 
-    <section id="gift" class="panel">
-      <div class="section-title">
-        <span>04</span>
-        <h2>Pick Your Gift</h2>
-      </div>
-      <p class="desc">마음 가는 상자를 눌러봐. 누르면 선물이 뿅! 🎁</p>
+        <div class="cake-stage">
+          <button id="wishBtn" class="wish-btn">소원 빌고 초 끄기</button>
+          <div class="cake">
+            <div class="candles">
+              <button class="candle"><i></i></button>
+              <button class="candle"><i></i></button>
+              <button class="candle"><i></i></button>
+            </div>
+            <div class="cream cream-top"></div>
+            <div class="layer layer-1"></div>
+            <div class="cream"></div>
+            <div class="layer layer-2"></div>
+            <div class="plate"></div>
+          </div>
+          <p id="cakeMsg" class="cake-msg">우니 오늘의 주인공 등장 👑</p>
+        </div>
+      </section>
 
-      <div class="gift-grid">
-        <button class="gift-box" data-gift="예쁜 카페 데이트 쿠폰 ☕🍰">
-          <span class="ribbon"></span><b>?</b><small>선물 A</small>
-        </button>
-        <button class="gift-box" data-gift="원하는 거 같이 쇼핑하기 쿠폰 🛍️">
-          <span class="ribbon"></span><b>?</b><small>선물 B</small>
-        </button>
-        <button class="gift-box" data-gift="하루 종일 공주님 대접권 👑">
-          <span class="ribbon"></span><b>?</b><small>선물 C</small>
-        </button>
-      </div>
-      <div id="giftResult" class="gift-result">아직 비밀이야... 💝</div>
-    </section>
-  </main>
+      <section id="letter" class="panel">
+        <div class="section-title">
+          <span>03</span>
+          <h2>Letter For U</h2>
+        </div>
+        <article class="letter-card">
+          <div class="seal">💌</div>
+          <p>내친구 우니에게,</p>
+          <p>
+            생일 너무너무 축하해! 너는 나에게 그냥 친구가 아니라 너덕분에
+            서울생활을 잘 지낸거같아.
+          </p>
+          <p>
+            앞으로도 맛있는 거 먹고 잼난곳 가고 추억 많이쌓자. 올해는 더욱
+            행운이 가득하길바랭 내친구 사당행 ! 🎀
+          </p>
+          <strong>사랑을 담아서, 순수천사가 💗</strong>
+        </article>
+      </section>
 
-  <script src="script.js"></script>
-</body>
+      <section id="gift" class="panel">
+        <div class="section-title">
+          <span>04</span>
+          <h2>Pick Your Gift</h2>
+        </div>
+        <p class="desc">마음 가는 상자를 눌러봐. 누르면 선물이 뿅! 🎁</p>
+
+        <div class="gift-grid">
+          <button class="gift-box" data-gift="예쁜 카페 데이트 쿠폰 ☕🍰">
+            <span class="ribbon"></span><b>?</b><small>선물 A</small>
+          </button>
+          <button class="gift-box" data-gift="원하는 거 같이 쇼핑하기 쿠폰 🛍️">
+            <span class="ribbon"></span><b>?</b><small>선물 B</small>
+          </button>
+          <button class="gift-box" data-gift="하루 종일 공주님 대접권 👑">
+            <span class="ribbon"></span><b>?</b><small>선물 C</small>
+          </button>
+        </div>
+        <div id="giftResult" class="gift-result">아직 비밀이야... 💝</div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
 </html>

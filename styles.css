@@ -129,9 +129,9 @@ h1 span { color: #8124df; }
 h2 { margin: 0; font-family: 'Jua', sans-serif; font-size: 25px; }
 .desc { margin: 8px 0 16px; color: #7b3d64; }
 
-.camera-box input { display: none; }
 .photo-preview {
   height: 230px;
+  position: relative;
   display: grid;
   place-items: center;
   align-content: center;
@@ -142,12 +142,89 @@ h2 { margin: 0; font-family: 'Jua', sans-serif; font-size: 25px; }
   overflow: hidden;
   cursor: pointer;
   transition: .25s ease;
+  touch-action: none;
+  user-select: none;
 }
 .photo-preview:hover { transform: scale(1.015); box-shadow: 0 15px 35px rgba(255,63,164,.2); }
-.photo-preview.has-image { background-size: cover; background-position: center; color: transparent; border-style: solid; }
+.photo-preview.has-image {
+  background-size: cover;
+  background-position: var(--photo-x, 50%) var(--photo-y, 50%);
+  color: transparent;
+  border-style: solid;
+  cursor: grab;
+}
+.photo-preview.has-image::after {
+  content: '드래그해서 위치 맞추기';
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  color: #fff;
+  font-family: 'Jua', sans-serif;
+  font-size: 13px;
+  background: rgba(88, 34, 69, .58);
+  box-shadow: 0 8px 18px rgba(88,34,69,.18);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.photo-preview.dragging {
+  cursor: grabbing;
+  transform: scale(1.01);
+}
 .camera-icon { font-size: 46px; animation: sparkle 1.6s ease-in-out infinite; }
 .photo-preview strong { font-family: 'Jua', sans-serif; font-size: 24px; }
 .photo-preview small { font-size: 13px; }
+.photo-tools {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 0;
+  color: #8a336b;
+  font-size: 12px;
+  text-align: center;
+}
+.photo-tools.active { display: flex; }
+.photo-tools button,
+.photo-tools label {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: #fff;
+  font-family: 'Jua', sans-serif;
+  font-size: 13px;
+  background: linear-gradient(135deg, var(--hot), var(--purple));
+  box-shadow: 0 8px 18px rgba(255,63,164,.22);
+  cursor: pointer;
+}
+.photo-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 82px;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 4px 2px 12px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.photo-thumb {
+  width: 82px;
+  height: 82px;
+  border: 3px solid rgba(255,255,255,.9);
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 22px rgba(88,34,69,.14);
+  cursor: pointer;
+  transition: .22s ease;
+}
+.photo-thumb.active {
+  border-color: var(--hot);
+  box-shadow: 0 0 0 4px rgba(255,63,164,.18), 0 12px 26px rgba(88,34,69,.2);
+  transform: translateY(-3px) rotate(-2deg);
+}
 
 .album-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
 .polaroid {
@@ -614,4 +691,360 @@ h2 {
 
 .gift-box:nth-child(3) {
   background: linear-gradient(135deg, #ffd7ea, #ff75b8);
+}
+
+/* carousel amusement park birthday refresh */
+:root {
+  --hot: #ff65ae;
+  --pink: #ffb8d9;
+  --baby: #ffe6f2;
+  --cream: #fffaf2;
+  --purple: #9f79ff;
+  --sky: #bfeeff;
+  --mint: #bdf7e6;
+  --gold: #ffd36f;
+  --text: #6b3158;
+  --shadow: 0 26px 90px rgba(255, 122, 185, .28);
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 18% 16%, rgba(255,255,255,.95) 0 7%, transparent 8%),
+    radial-gradient(ellipse at 28% 13%, rgba(255,255,255,.88) 0 5%, transparent 6%),
+    radial-gradient(ellipse at 80% 18%, rgba(255,255,255,.88) 0 8%, transparent 9%),
+    radial-gradient(circle at 15% 82%, rgba(255, 211, 111, .58) 0 7%, transparent 18%),
+    radial-gradient(circle at 88% 84%, rgba(159, 121, 255, .36) 0 8%, transparent 21%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.22) 0 18px, rgba(255,184,217,.18) 18px 36px),
+    linear-gradient(180deg, #c8f1ff 0%, #fff3fb 38%, #ffd1e6 72%, #fff7df 100%);
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  top: 0;
+  height: 190px;
+  background:
+    repeating-conic-gradient(from 45deg at 50% -18px, rgba(255,105,180,.72) 0 11deg, rgba(255,255,255,.9) 11deg 22deg, rgba(255,211,111,.72) 22deg 33deg, rgba(255,255,255,.9) 33deg 44deg);
+  clip-path: polygon(0 0, 100% 0, 100% 48%, 91% 74%, 82% 48%, 73% 74%, 64% 48%, 55% 74%, 46% 48%, 37% 74%, 28% 48%, 19% 74%, 10% 48%, 0 74%);
+  opacity: .78;
+  filter: drop-shadow(0 12px 18px rgba(255, 122, 185, .16));
+}
+
+body::after {
+  bottom: 0;
+  height: 115px;
+  background:
+    radial-gradient(ellipse at 12% 100%, #fff7df 0 34%, transparent 35%),
+    radial-gradient(ellipse at 35% 105%, #ffb8d9 0 28%, transparent 29%),
+    radial-gradient(ellipse at 62% 100%, #fff7df 0 32%, transparent 33%),
+    radial-gradient(ellipse at 88% 105%, #ffb8d9 0 30%, transparent 31%);
+  opacity: .8;
+}
+
+.park-balloon {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  font-size: clamp(34px, 8vw, 72px);
+  filter: drop-shadow(0 12px 18px rgba(107,49,88,.16));
+  animation: balloonFloat 5.2s ease-in-out infinite;
+}
+.balloon-a { top: 22%; left: max(12px, calc(50% - 360px)); animation-delay: -.6s; }
+.balloon-b { top: 13%; right: max(14px, calc(50% - 370px)); animation-delay: -1.8s; }
+.balloon-c { bottom: 13%; left: max(8px, calc(50% - 410px)); animation-delay: -2.6s; }
+
+.phone-card {
+  border: 3px solid rgba(255,255,255,.92);
+  border-radius: 42px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,244,250,.72)),
+    repeating-linear-gradient(90deg, rgba(255,101,174,.08) 0 18px, rgba(255,255,255,.22) 18px 36px);
+  box-shadow: var(--shadow), 0 0 0 10px rgba(255,255,255,.25), inset 0 0 34px rgba(255,255,255,.92);
+}
+
+.phone-card::before {
+  inset: 14px;
+  border: 2px dashed rgba(255, 157, 204, .52);
+  border-radius: 32px;
+}
+
+.phone-card::after {
+  content: '';
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  width: 76%;
+  height: 82px;
+  border: 3px solid rgba(255,255,255,.9);
+  border-radius: 0 0 90px 90px;
+  background:
+    repeating-linear-gradient(90deg, #ff65ae 0 18px, #fffaf2 18px 36px, #ffd36f 36px 54px, #fffaf2 54px 72px);
+  box-shadow: 0 16px 32px rgba(255,122,185,.18);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.hero {
+  position: relative;
+  padding-top: 32px;
+}
+
+.hero::before,
+.hero::after {
+  content: '✦';
+  position: absolute;
+  top: 36px;
+  color: #ffd36f;
+  font-size: 24px;
+  text-shadow: 0 0 12px rgba(255, 211, 111, .75);
+  animation: sparkle 1.9s ease-in-out infinite;
+}
+.hero::before { left: 30px; }
+.hero::after { right: 30px; animation-delay: -.75s; }
+
+.crown {
+  width: 70px;
+  height: 70px;
+  color: #fff;
+  font-size: 40px;
+  background:
+    radial-gradient(circle at 50% 36%, #fff 0 14%, transparent 15%),
+    conic-gradient(from 0deg, #ff65ae, #ffd36f, #9f79ff, #ff65ae);
+  border: 4px solid #fff;
+  box-shadow: 0 14px 28px rgba(255,101,174,.26), inset 0 0 0 5px rgba(255,255,255,.28);
+}
+
+.eyebrow {
+  color: #b05186;
+  font-family: 'Jua', sans-serif;
+  letter-spacing: .11em;
+}
+
+h1 {
+  color: #ff5da8;
+  text-shadow: 2px 3px 0 #fff, 0 0 18px rgba(255,255,255,.95), 0 14px 24px rgba(255, 93, 168, .18);
+}
+
+h1 span {
+  color: #fff;
+  padding: 7px 15px 10px;
+  border: 3px solid #fff;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #ff65ae, #9f79ff 58%, #ffcc62);
+  box-shadow: 0 14px 28px rgba(159,121,255,.22), inset 0 1px 0 rgba(255,255,255,.6);
+  text-shadow: 0 2px 8px rgba(107,49,88,.28);
+}
+
+.subtitle {
+  color: #844265;
+  font-weight: 700;
+}
+
+.tabs {
+  gap: 9px;
+  padding: 9px;
+  border: 2px solid rgba(255,255,255,.92);
+  border-radius: 28px;
+  background: rgba(255,255,255,.64);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.92), 0 12px 30px rgba(255,122,185,.12);
+}
+
+.tab {
+  position: relative;
+  border-radius: 20px;
+  color: #a84f80;
+  background: linear-gradient(180deg, #fff, #fff0f7);
+  box-shadow: 0 7px 0 rgba(255,184,217,.42);
+}
+
+.tab::before,
+.tab::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,184,217,.68);
+  transform: translateY(-50%);
+}
+.tab::before { left: 5px; }
+.tab::after { right: 5px; }
+
+.tab.active {
+  background: linear-gradient(135deg, #ff65ae, #9f79ff);
+  box-shadow: 0 7px 0 #ffd36f, 0 14px 22px rgba(255,101,174,.2);
+}
+
+.section-title span {
+  border-radius: 50% 50% 48% 48%;
+  background: radial-gradient(circle, #fff 0 24%, #ffd36f 25% 48%, #ff65ae 49% 100%);
+  box-shadow: 0 10px 22px rgba(255,101,174,.2);
+}
+
+h2::after {
+  content: ' 🎪';
+}
+
+.photo-preview {
+  height: 270px;
+  border: 7px solid #fff;
+  border-radius: 42px 42px 34px 34px;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255,255,255,.95) 0 9%, transparent 10%),
+    linear-gradient(135deg, rgba(255,250,242,.92), rgba(255,230,242,.78));
+  box-shadow: 0 18px 42px rgba(255,122,185,.2), inset 0 0 0 6px rgba(255,211,111,.35);
+}
+
+.photo-preview::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 2px dashed rgba(255,255,255,.8);
+  border-radius: 30px;
+  pointer-events: none;
+}
+
+.photo-preview.has-image {
+  border-color: #fff;
+  box-shadow: 0 20px 48px rgba(255,101,174,.24), inset 0 0 0 8px rgba(255,211,111,.38);
+}
+
+.photo-preview.has-image::after {
+  content: '🎠 드래그해서 위치 맞추기';
+  background: linear-gradient(135deg, rgba(255,101,174,.88), rgba(159,121,255,.88));
+}
+
+.photo-tools button {
+  background: linear-gradient(135deg, #ff65ae, #ffb8d9);
+  box-shadow: 0 8px 0 #ffd36f, 0 13px 22px rgba(255,101,174,.18);
+}
+
+.photo-strip {
+  grid-auto-columns: 88px;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.photo-thumb {
+  width: 88px;
+  height: 88px;
+  border: 5px solid #fff;
+  border-radius: 999px 999px 28px 28px;
+  box-shadow: 0 12px 24px rgba(107,49,88,.15), inset 0 0 0 4px rgba(255,211,111,.24);
+}
+
+.photo-thumb.active {
+  border-color: #ffd36f;
+  box-shadow: 0 0 0 5px rgba(255,101,174,.24), 0 16px 30px rgba(107,49,88,.18);
+  transform: translateY(-5px) rotate(-3deg);
+}
+
+.album-grid {
+  position: relative;
+  padding-top: 10px;
+}
+
+.polaroid {
+  border: 3px solid #fff;
+  border-radius: 18px;
+  background: #fffaf2;
+  box-shadow: 0 10px 0 rgba(255,211,111,.35), 0 18px 28px rgba(107,49,88,.13);
+}
+
+.fake-photo {
+  border-radius: 14px;
+}
+.p1 { background: linear-gradient(135deg, #ff65ae, #ffd36f); }
+.p2 { background: linear-gradient(135deg, #9f79ff, #bdf7e6); }
+.p3 { background: linear-gradient(135deg, #ffb8d9, #ff65ae); }
+
+.cake-stage,
+.letter-card,
+.gift-result {
+  border: 4px solid #fff;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,246,251,.72)),
+    repeating-linear-gradient(90deg, rgba(255,101,174,.12) 0 18px, rgba(255,255,255,.1) 18px 36px);
+  box-shadow: 0 18px 42px rgba(255,122,185,.18), inset 0 0 0 5px rgba(255,211,111,.18);
+}
+
+.cake-stage::before {
+  content: '🎟️ SWEET CAKE BOOTH 🎟️';
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: #fff;
+  font-family: 'Jua', sans-serif;
+  font-size: 12px;
+  background: linear-gradient(135deg, #ff65ae, #9f79ff);
+  transform: translateX(-50%);
+}
+
+.wish-btn,
+.gift-result {
+  background: linear-gradient(135deg, #ff65ae, #9f79ff);
+  box-shadow: 0 8px 0 #ffd36f, 0 16px 28px rgba(255,101,174,.22);
+}
+
+.cake-msg {
+  background: linear-gradient(135deg, #ff65ae, #ffb8d9 56%, #9f79ff);
+  box-shadow: 0 8px 0 #ffd36f, 0 14px 30px rgba(255,101,174,.24);
+}
+
+.layer-1 { background: linear-gradient(90deg, #ff65ae, #ffd36f); }
+.layer-2 { background: linear-gradient(90deg, #9f79ff, #ffb8d9); }
+
+.letter-card::before {
+  content: 'CAROUSEL LETTER';
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  padding: 7px 14px;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  color: #fff;
+  font-family: 'Jua', sans-serif;
+  font-size: 12px;
+  letter-spacing: .08em;
+  background: linear-gradient(135deg, #ff65ae, #ffd36f);
+  transform: translateX(-50%);
+}
+
+.gift-box {
+  border: 4px solid #fff;
+  border-radius: 28px 28px 22px 22px;
+  background: linear-gradient(135deg, #ff65ae, #ffd36f);
+  box-shadow: 0 9px 0 rgba(255,211,111,.5), 0 16px 30px rgba(255,101,174,.22);
+}
+.gift-box:nth-child(2) { background: linear-gradient(135deg, #9f79ff, #bdf7e6); }
+.gift-box:nth-child(3) { background: linear-gradient(135deg, #ffb8d9, #ff65ae); }
+
+.confetti-piece {
+  border-radius: 999px 999px 4px 4px;
+}
+
+@keyframes balloonFloat {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-22px) rotate(5deg); }
+}
+
+@media (max-width: 430px) {
+  .park-balloon { opacity: .55; }
+  .phone-card { border-radius: 32px; }
+  .phone-card::after { width: 88%; }
+  .photo-preview { height: 245px; }
+  .photo-strip { grid-auto-columns: 76px; }
+  .photo-thumb { width: 76px; height: 76px; }
 }
